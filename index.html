@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Snake and Ladder Game</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; }
+        .board { display: grid; grid-template-columns: repeat(10, 50px); width: 500px; margin: auto; }
+        .cell { width: 50px; height: 50px; border: 1px solid black; display: flex; align-items: center; justify-content: center; }
+        .player { background-color: red; color: white; padding: 2px 5px; border-radius: 50%; }
+    </style>
+</head>
+<body>
+    <h1>Snake and Ladder Game</h1>
+    <div class="board" id="board"></div>
+    <button onclick="rollDice()">Roll Dice</button>
+    <p id="message"></p>
+
+    <script>
+        let playerPosition = 1;
+        const board = document.getElementById("board");
+        
+        function createBoard() {
+            for (let i = 100; i > 0; i--) {
+                const cell = document.createElement("div");
+                cell.classList.add("cell");
+                cell.id = "cell-" + i;
+                cell.textContent = i;
+                board.appendChild(cell);
+            }
+            updatePlayerPosition();
+        }
+        
+        function rollDice() {
+            const dice = Math.floor(Math.random() * 6) + 1;
+            document.getElementById("message").textContent = "You rolled a " + dice;
+            movePlayer(dice);
+        }
+        
+        function movePlayer(dice) {
+            let newPosition = playerPosition + dice;
+            if (newPosition > 100) return;
+            playerPosition = newPosition;
+            updatePlayerPosition();
+        }
+        
+        function updatePlayerPosition() {
+            document.querySelectorAll(".player").forEach(e => e.remove());
+            const player = document.createElement("span");
+            player.classList.add("player");
+            player.textContent = "P";
+            document.getElementById("cell-" + playerPosition).appendChild(player);
+        }
+        
+        createBoard();
+    </script>
+</body>
+</html>
